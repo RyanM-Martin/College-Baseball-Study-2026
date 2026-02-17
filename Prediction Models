@@ -1,0 +1,114 @@
+------------------------------------------------------Base Prediction Model-------------------------------------------------------
+- simple model base solely on On Base Percentage, Earned-Run-Average, and number of errors per 9 innings, all adjusted for strength of schedule
+```{r}
+
+Ryan_prediction <- function(team1, team2){
+  team1_rating<- (team1$sos)*(11*(team1$obp)+.20*(team1$ERA)-.15*(team1$ER9))
+  team2_rating<- (team2$sos)*(11*(team2$obp)+.20*(team2$ERA)-.15*(team2$ER9))
+  final_prediction = team1_rating - team2_rating
+  if (final_prediction>0){
+    print(paste(team1$Teams, 'wins'))
+  }
+  else if(final_prediction<0){
+    print(paste (team2$Teams, 'wins'))
+  }
+  else{
+    print('teams are equal, choose the winner yourself')
+  }
+}
+
+```
+
+
+------------------------------------------------------ERA prediction method----------------------------------------------------------
+- Weighs number of runs gained vs given up along with strength of schedule
+- Added OBS and errors per 9 innings to cancel out some error
+
+```{r}
+ERA_prediction <- function(team1, team2){
+  team1_rating<- (team1$sos)*(.3*(team1$ERA)-.30*(team1$DERA)+10*(team1$OBP)-.10*(team1$ER9))
+  team2_rating<- (team2$sos)*(.3*(team2$ERA)-.30*(team2$DERA)+10*(team2$OBP)-.10*(team2$ER9))
+  final_prediction = team1_rating - team2_rating
+  if (final_prediction>0){
+    print(paste(team1$Teams, 'wins'))
+  }
+  else if(final_prediction<0){
+    print(paste (team2$Teams, 'wins'))
+  }
+  else{
+    print('teams are equal, choose the winner yourself')
+  }
+}
+```
+
+----------------------------------------------------Power Hitting Prediction--------------------------------------------------------------
+- Method valuing better hitting teams than worse
+- Focusses on OPS, HRs and RBIs per game, Slugging percentage,
+
+```{r}
+Hitting_prediction <- function(team1, team2){
+  team1_rating<- (team1$sos)*(.25*(team1$HR9 / numGames)+.25*(team1$RBI9)
+                                +15*(team1$SLG)+10*(team1$OPS)-.25*(team1$SO9))
+  team2_rating<- (team2$sos)*(.25*(team2$HR9 / numGames)+.25*(team2$RBI9)
+                              +15*(team2$SLG)+10*(team1$OPS)-.25*(team2$SO9))
+  final_prediction = team1_rating - team2_rating
+  if (final_prediction>0){
+    print(paste(team1$Teams, 'wins'))
+  }
+  else if(final_prediction<0){
+    print(paste (team2$Teams, 'wins'))
+  }
+  else{
+    print('teams are equal, choose the winner yourself')
+  }
+}
+```
+
+
+---------------------------------------------------------Pitching Prediction-------------------------------------------------------------------
+
+
+
+
+
+----------------------------------------------------Hitting vs Pitching Prediction---------------------------------------------------------------
+- Takes a team's hitting stats minus the opposing team's pitching stats
+```{r}
+HvP_prediction <- function(team1, team2){
+  team1_rating<- (team1$sos)*(.25*(team1$HR9)+.25*(team1$RBI9)+
+                              15*(team1$SLG)+10*(team1$OPS))
+  team1_rating<- team1_rating -(team2$SOS)*(.25*(team2$SO9)+.3*(team2$ERA)-
+                                              .25(team2$WHIP)
+  
+  team2_rating<- (team2$sos)*(.25*(team2$HR9)+.25*(team2$RBI9)+
+                              15*(team2$SLG)+10*(team2$OPS))
+  team2_rating<- team2_rating -(team1$SOS)*(.25*(team1$SO9)+.3*(team1$ERA)-
+                                              .25(team1$WHIP)
+                                            
+  final_prediction = team1_rating - team2_rating
+  if (final_prediction>0){
+    print(paste(team1$Teams, 'wins'))
+  }
+  else if(final_prediction<0){
+    print(paste (team2$Teams, 'wins'))
+  }
+  else{
+    print('teams are equal, choose the winner yourself')
+  }
+}
+```
+
+
+-----------------------------------------Log5 Method Function Adjusted for Strength of Schedule-------------------------------------------------
+- The Log 5 method is commonly used in multiple sports to determine the probability one team beats another
+- Outputs the probability team A beats team B
+
+```{r}
+Log5_prediction <- function(TeamA, TeamB) {
+  Adj_win_pct_A<- TeamA$WinSOS
+  Adj_win_pct_B<- TeamB$WinSOS
+  prob <- (Adj_win_pct_A - (Adj_win_pct_A * Adj_win_pct_B)) /
+    (Adj_win_pct_A + Adj_win_pct_B - (2 * Adj_win_pct_A * Adj_win_pct_B))
+  return(prob)
+}
+```
