@@ -1,0 +1,57 @@
+College Baseball Prediction Models Base Code
+```{r}
+#read excel spreadsheet into cbbdata
+install.packages("readxl")
+library(readxl)
+cbbdata <- read_excel("~/Downloads/2026 College Baseball.xlsx", sheet = 1)
+```
+Code to create individual team subsets
+```{r}
+Alabama<- cbbdata[cbbdata$Teams == "Alabama", ]
+Alabama <- Alabama[1,]
+
+Auburn<- cbbdata[cbbdata$Teams == 'Auburn',]
+Auburn<- Auburn[1,]
+
+Georgia<- cbbdata[cbbdata$Teams == 'Georgia',]
+Georgia<- Georgia[1,]
+
+USC<- cbbdata[cbbdata$Teams == 'S. Carolina',]
+USC<- USC[1,]
+
+Tennessee<- cbbdata[cbbdata$Teams == 'Tennessee',]
+Tennessee<- Tennessee[1,]
+
+MissSt<- cbbdata[cbbdata$Teams == 'Miss. St.',]
+MissSt<- MissSt[1,]
+
+Vandy<- cbbdata[cbbdata$Teams == 'Vandy',]
+Vandy<- Vandy[1,]
+
+OleMiss<- cbbdata[cbbdata$Teams == 'Ole Miss',]
+OleMiss<- OleMiss[1,]
+
+Arkansas<- cbbdata[cbbdata$Teams == 'Arkansas',]
+Arkansas<- Arkansas[1,]
+
+Texas<- cbbdata[cbbdata$Teams == 'Texas',]
+Texas<- Texas[1,]
+
+TexasAnM<- cbbdata[cbbdata$Teams == 'Texas A&M',]
+TexasAnM<- TexasAnM[1,]
+
+Mizzou<- cbbdata[cbbdata$Teams == 'Mizzou',]
+Mizzou<- Mizzou[1,]
+
+Florida<- cbbdata[cbbdata$Teams == 'Florida',]
+Florida<- Florida[1,]
+
+Oklahoma<- cbbdata[cbbdata$Teams == 'Oklahoma',]
+Oklahoma<- Oklahoma[1,]
+
+Kentucky<- cbbdata[cbbdata$Teams == 'Kentucky',]
+Kentucky<- Kentucky[1,]
+
+LSU<- cbbdata[cbbdata$Teams == 'LSU',]
+LSU<- LSU[1,]
+```
