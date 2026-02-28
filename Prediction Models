@@ -66,10 +66,26 @@ Hitting_prediction <- function(team1, team2){
 
 
 ---------------------------------------------------------Pitching Prediction-------------------------------------------------------------------
+- Method valuing a team's pitching
+- Foccusses on ERA, Strike Outs per 9 innings, and WHIP
 
 
-
-
+```{r}
+Pitching_prediction <- function(team1, team2){
+  team1_rating<- (team1$sos)*(0.40*(team1$ERA)+.25*(team1$SO9)-.25*(team1$WHIP))
+  team2_rating<- (team2$sos)*(0.40*(team2$ERA)+.25*(team2$SO9)-.25*(team2$WHIP))
+  final_prediction = team1_rating - team2_rating
+  if (final_prediction>0){
+    print(paste(team1$Teams, 'wins'))
+  }
+  else if(final_prediction<0){
+    print(paste (team2$Teams, 'wins'))
+  }
+  else{
+    print('teams are equal, choose the winner yourself')
+  }
+}
+```
 
 ----------------------------------------------------Hitting vs Pitching Prediction---------------------------------------------------------------
 - Takes a team's hitting stats minus the opposing team's pitching stats
